@@ -5,6 +5,7 @@
 - Ported the five-class Wi-Fi fix to app 3.3.0 (303000).
 - Verified the original methods before porting, the released APK signature, and DEX rebuild identity.
 - Confirmed in-place upgrade and preservation of account/pairing in the tested setup.
+- Tester confirmed media import works on 3.3.0.
 - Documented validation limits and separate firmware-network troubleshooting.
 
 ## 3.1.27: network fix r2

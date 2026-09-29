@@ -12,7 +12,7 @@ The app sees your Xiaomi AI Glasses over Bluetooth, shows their battery level, a
 
 **This patch is intended for that failure.** In the investigated case, Wi-Fi authentication and DHCP actually succeeded. The app failed to recognise the successful connection, or cancelled its own request during a network transition. The patch corrects those two paths so import can proceed.
 
-If your symptoms match, this is a build worth testing, not a guaranteed fix: the same message can have other causes. The fix restored import in the tested 3.1.27 build; this release ports it to 3.3.0. It does not fix a wrong Wi-Fi password, a broken access point, or every firmware-update error.
+If your symptoms match, this is a build worth testing, not a guaranteed fix: the same message can have other causes. Media import was confirmed working by the tester on both 3.1.27 and 3.3.0. It does not fix a wrong Wi-Fi password, a broken access point, or every firmware-update error.
 
 ## What it fixes
 
@@ -44,7 +44,7 @@ Only five classes in `classes15.dex` are changed. Firmware code, Wi-Fi authentic
 
 ## Validation and limits
 
-Version 3.3.0 installs over the earlier project-signed build, starts successfully, and preserves the account and paired glasses in the tested setup. The rebuilt DEX matches the released DEX. Media import was confirmed with the earlier 3.1.27 patch; it has **not been independently retested on 3.3.0**.
+Version 3.3.0 installs over the earlier project-signed build, starts successfully, and preserves the account and paired glasses in the tested setup. The rebuilt DEX matches the released DEX. **The tester confirmed that media import works on 3.3.0.**
 
 Firmware download worked after a separate network/proxy/DNS configuration change. Completion was reported by the tester, but the resulting firmware version was not independently verified. The APK patch does not fix every firmware network error and contains no proxy or router settings. See [validation](docs/VALIDATION.md) and [firmware troubleshooting](docs/FIRMWARE.md).
 

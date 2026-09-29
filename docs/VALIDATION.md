@@ -12,7 +12,7 @@
 | Installation | In-place update from the earlier project-signed build succeeded |
 | Startup | No fatal exception or verification error in the observed startup window |
 | Account and glasses | Tester confirmed both remained available |
-| Media import on 3.3.0 | Not independently retested |
+| Media import on 3.3.0 | Confirmed working by the tester |
 | Firmware download | Confirmed after separate proxy and DNS configuration |
 | Firmware installation | Tester reported apparent completion; final version not independently checked |
 
