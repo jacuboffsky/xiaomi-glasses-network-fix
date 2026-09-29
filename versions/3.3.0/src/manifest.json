@@ -1,0 +1,22 @@
+{
+  "tools/ConnectUtil$a.smali": {
+    "original_sha256": "444ee4edf63afef654dad9b4521444331ca351c4be33f73d6e228cd12d0cd6dd",
+    "patched_sha256": "a45362e27eaeb2c3d1f9fa3bfa9d76f2c875a0dd26ebabe96370a64a9b998043"
+  },
+  "tools/ConnectUtil.smali": {
+    "original_sha256": "8da81f39f32d1023e291ffa00597d456876a2fa1dfbd353142f218753e69b82d",
+    "patched_sha256": "7038dee76056e149e94c8f9e7b4a35ea4ec80e9196e8da7d98313bf59dd2c8ca"
+  },
+  "presentation/ConnectMiWearAPFragment.smali": {
+    "original_sha256": "c7be97ed3d04c9cd587a177644a3e111f4d269c39b2c1a458b7ebb5ece442440",
+    "patched_sha256": "b7e5e4f008194542c462e3253b922162d46b5d8098639da0ea8d9fe9a168a06b"
+  },
+  "presentation/ConnectMiWearAPFragment$handler$2.smali": {
+    "original_sha256": "955522cadae5af2aca15cc0079b2931df125596a2d98e6a6dd64af610e52bd3a",
+    "patched_sha256": "a7e16258a5926c84842dc422636c5647be60bfe6c5c72788cafa5d5220e6314b"
+  },
+  "presentation/ConnectMiWearAPFragment$connectAp$1$1.smali": {
+    "original_sha256": "c4ed6e6722c84a20dbf2be180685acd0f6c4a40a19c541bbab27cd9296af1de1",
+    "patched_sha256": "e6cbbd0c7e9f681b07d3056d96654eec979255bb3d53fa7dbec90b463cbd3930"
+  }
+}

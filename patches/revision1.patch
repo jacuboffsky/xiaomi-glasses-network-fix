@@ -1,0 +1,305 @@
+--- original/presentation/ConnectMiWearAPFragment$connectAp$1$1.smali
++++ patched/presentation/ConnectMiWearAPFragment$connectAp$1$1.smali
+@@ -89,63 +89,15 @@
+ .end method
+ 
+ .method public final invoke(ILandroid/net/Network;)V
+-    .locals 6
+-    .param p2    # Landroid/net/Network;
+-        .annotation build Lorg/jetbrains/annotations/Nullable;
+-        .end annotation
+-    .end param
+-
+-    .line 2
+-    sget-object v0, Ltimber/log/b;->a:Ltimber/log/b$b;
+-
+-    const-string v1, "ConnectMiWearAP"
+-
+-    invoke-virtual {v0, v1}, Ltimber/log/b$b;->j(Ljava/lang/String;)Ltimber/log/b$c;
+-
++    .locals 2
++    iget-object v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment$connectAp$1$1;->this$0:Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;
++    invoke-static {v0}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->access$getHandler(Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;)Landroid/os/Handler;
+     move-result-object v0
+-
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
++    const/16 v1, 0xcf
++    invoke-virtual {v0, v1}, Landroid/os/Handler;->obtainMessage(I)Landroid/os/Message;
+     move-result-object v1
+-
+-    filled-new-array {v1, p2}, [Ljava/lang/Object;
+-
+-    move-result-object p2
+-
+-    const-string v1, "\u8fde\u63a5wifi \u8fd4\u56de\u7ed3\u679c code %s network %s"
+-
+-    invoke-virtual {v0, v1, p2}, Ltimber/log/b$c;->d(Ljava/lang/String;[Ljava/lang/Object;)V
+-
+-    const/4 p2, -0x1
+-
+-    if-ne p1, p2, :cond_0
+-
+-    .line 3
+-    iget-object v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment$connectAp$1$1;->this$0:Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;
+-
+-    sget-object v1, Lcom/superhexa/lib/channel/presentation/TaskState$i;->a:Lcom/superhexa/lib/channel/presentation/TaskState$i;
+-
+-    const/4 v4, 0x2
+-
+-    const/4 v5, 0x0
+-
+-    const-wide/16 v2, 0x0
+-
+-    invoke-static/range {v0 .. v5}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->delaySendResult$default(Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;Lcom/superhexa/lib/channel/presentation/TaskState;JILjava/lang/Object;)V
+-
+-    .line 4
+-    iget-object p0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment$connectAp$1$1;->this$0:Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;
+-
+-    invoke-static {p0}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->access$getHandler(Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;)Landroid/os/Handler;
+-
+-    move-result-object p0
+-
+-    const/16 p1, 0xcb
+-
+-    const-wide/16 v0, 0x3e8
+-
+-    invoke-virtual {p0, p1, v0, v1}, Landroid/os/Handler;->sendEmptyMessageDelayed(IJ)Z
+-
+-    :cond_0
++    iput p1, v1, Landroid/os/Message;->arg1:I
++    iput-object p2, v1, Landroid/os/Message;->obj:Ljava/lang/Object;
++    invoke-virtual {v1}, Landroid/os/Message;->sendToTarget()V
+     return-void
+ .end method
+--- original/presentation/ConnectMiWearAPFragment$handler$2.smali
++++ patched/presentation/ConnectMiWearAPFragment$handler$2.smali
+@@ -74,6 +74,18 @@
+ .method private static final invoke$lambda$0(Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;Landroid/os/Message;)Z
+     .locals 5
+ 
++
++    iget v0, p1, Landroid/os/Message;->what:I
++    const/16 v1, 0xcf
++    if-ne v0, v1, :xg_original
++    iget v0, p1, Landroid/os/Message;->arg1:I
++    iget-object v1, p1, Landroid/os/Message;->obj:Ljava/lang/Object;
++    check-cast v1, Landroid/net/Network;
++    invoke-virtual {p0, v0, v1}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->xgNetworkResult(ILandroid/net/Network;)V
++    const/4 v0, 0x1
++    return v0
++    :xg_original
++
+     const-string v0, "this$0"
+ 
+     invoke-static {p0, v0}, Lkotlin/jvm/internal/f0;->p(Ljava/lang/Object;Ljava/lang/String;)V
+--- original/presentation/ConnectMiWearAPFragment.smali
++++ patched/presentation/ConnectMiWearAPFragment.smali
+@@ -182,6 +182,7 @@
+ 
+ 
+ # instance fields
++.field private xgTerminal:Z
+ .field private final action:Lkotlin/jvm/functions/Function1;
+     .annotation system Ldalvik/annotation/Signature;
+         value = {
+@@ -701,6 +702,30 @@
+ .method private final delaySendResult(Lcom/superhexa/lib/channel/presentation/TaskState;J)V
+     .locals 10
+ 
++
++    iget-boolean v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->xgTerminal:Z
++    if-eqz v0, :xg_check_terminal
++    return-void
++    :xg_check_terminal
++    instance-of v0, p1, Lcom/superhexa/lib/channel/presentation/TaskState$a;
++    if-nez v0, :xg_terminal
++    instance-of v0, p1, Lcom/superhexa/lib/channel/presentation/TaskState$b;
++    if-nez v0, :xg_terminal
++    instance-of v0, p1, Lcom/superhexa/lib/channel/presentation/TaskState$h;
++    if-nez v0, :xg_terminal
++    instance-of v0, p1, Lcom/superhexa/lib/channel/presentation/TaskState$i;
++    if-eqz v0, :xg_continue
++    :xg_terminal
++    const/4 v0, 0x1
++    iput-boolean v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->xgTerminal:Z
++    invoke-direct {p0}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->getHandler()Landroid/os/Handler;
++    move-result-object v0
++    const/16 v1, 0xc9
++    invoke-virtual {v0, v1}, Landroid/os/Handler;->removeMessages(I)V
++    const/16 v1, 0xcd
++    invoke-virtual {v0, v1}, Landroid/os/Handler;->removeMessages(I)V
++    :xg_continue
++
+     iget-object v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->resultJob:Lkotlinx/coroutines/x1;
+ 
+     if-eqz v0, :cond_0
+@@ -1326,6 +1351,10 @@
+ 
+ .method public onDestroy()V
+     .locals 3
++
++
++    const/4 v0, 0x1
++    iput-boolean v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->xgTerminal:Z
+ 
+     sget-object v0, Ltimber/log/b;->a:Ltimber/log/b$b;
+ 
+@@ -1403,3 +1432,47 @@
+ 
+     return-void
+ .end method
++
++
++.method public final xgNetworkResult(ILandroid/net/Network;)V
++    .locals 6
++    iget-boolean v0, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->xgTerminal:Z
++    if-nez v0, :xg_end
++    invoke-virtual {p0}, Landroidx/fragment/app/Fragment;->isAdded()Z
++    move-result v0
++    if-eqz v0, :xg_end
++    invoke-virtual {p0}, Landroidx/fragment/app/Fragment;->isRemoving()Z
++    move-result v0
++    if-nez v0, :xg_end
++    const/4 v0, 0x1
++    if-ne p1, v0, :xg_failure
++    if-eqz p2, :xg_end
++    invoke-virtual {p0}, Landroidx/fragment/app/Fragment;->requireContext()Landroid/content/Context;
++    move-result-object v0
++    iget-object v1, p0, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->apSsid:Ljava/lang/String;
++    invoke-static {v0, p2, v1}, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgRemember(Landroid/content/Context;Landroid/net/Network;Ljava/lang/String;)Z
++    move-result v0
++    if-eqz v0, :xg_end
++    const-string v0, "XGNetworkFix"
++    const-string v1, "accepted bound specifier network; AP success"
++    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
++    sget-object v1, Lcom/superhexa/lib/channel/presentation/TaskState$h;->a:Lcom/superhexa/lib/channel/presentation/TaskState$h;
++    goto :xg_deliver
++    :xg_failure
++    const/4 v0, -0x1
++    if-ne p1, v0, :xg_end
++    sget-object v1, Lcom/superhexa/lib/channel/presentation/TaskState$i;->a:Lcom/superhexa/lib/channel/presentation/TaskState$i;
++    :xg_deliver
++    move-object v0, p0
++    const-wide/16 v2, 0x0
++    const/4 v4, 0x0
++    const/4 v5, 0x0
++    invoke-static/range {v0 .. v5}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->delaySendResult$default(Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;Lcom/superhexa/lib/channel/presentation/TaskState;JILjava/lang/Object;)V
++    invoke-direct {p0}, Lcom/superhexa/lib/channel/presentation/ConnectMiWearAPFragment;->getHandler()Landroid/os/Handler;
++    move-result-object v0
++    const/16 v1, 0xcb
++    const-wide/16 v2, 0x3e8
++    invoke-virtual {v0, v1, v2, v3}, Landroid/os/Handler;->sendEmptyMessageDelayed(IJ)Z
++    :xg_end
++    return-void
++.end method
+--- original/tools/ConnectUtil.smali
++++ patched/tools/ConnectUtil.smali
+@@ -19,6 +19,7 @@
+ 
+ 
+ # static fields
++.field private static volatile xgIdentity:[Ljava/lang/Object;
+ .field public static final a:Lcom/superhexa/lib/channel/tools/ConnectUtil;
+     .annotation build Lorg/jetbrains/annotations/NotNull;
+     .end annotation
+@@ -1069,6 +1070,14 @@
+         .annotation build Lorg/jetbrains/annotations/NotNull;
+         .end annotation
+     .end param
++
++
++    invoke-static {p1, p2}, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgMatches(Landroid/content/Context;Ljava/lang/String;)Z
++    move-result v0
++    if-eqz v0, :xg_legacy
++    const/4 v0, 0x1
++    return v0
++    :xg_legacy
+ 
+     const-string p0, "context"
+ 
+@@ -1944,3 +1953,84 @@
+     :goto_0
+     return-object v0
+ .end method
++
++
++.method private static xgLive(Landroid/content/Context;Landroid/net/Network;)Z
++    .locals 3
++    if-eqz p0, :xg_no
++    if-eqz p1, :xg_no
++    sget-object v0, Lcom/superhexa/lib/channel/tools/ConnectUtil;->d:Landroid/net/Network;
++    invoke-virtual {p1, v0}, Landroid/net/Network;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-eqz v0, :xg_no
++    const-string v0, "connectivity"
++    invoke-virtual {p0, v0}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
++    move-result-object v0
++    check-cast v0, Landroid/net/ConnectivityManager;
++    if-eqz v0, :xg_no
++    invoke-virtual {v0}, Landroid/net/ConnectivityManager;->getBoundNetworkForProcess()Landroid/net/Network;
++    move-result-object v1
++    invoke-virtual {p1, v1}, Landroid/net/Network;->equals(Ljava/lang/Object;)Z
++    move-result v1
++    if-eqz v1, :xg_no
++    invoke-virtual {v0, p1}, Landroid/net/ConnectivityManager;->getNetworkCapabilities(Landroid/net/Network;)Landroid/net/NetworkCapabilities;
++    move-result-object v1
++    if-eqz v1, :xg_no
++    const/4 v2, 0x1
++    invoke-virtual {v1, v2}, Landroid/net/NetworkCapabilities;->hasTransport(I)Z
++    move-result v1
++    if-eqz v1, :xg_no
++    invoke-virtual {v0, p1}, Landroid/net/ConnectivityManager;->getLinkProperties(Landroid/net/Network;)Landroid/net/LinkProperties;
++    move-result-object v0
++    if-eqz v0, :xg_no
++    invoke-virtual {v0}, Landroid/net/LinkProperties;->getLinkAddresses()Ljava/util/List;
++    move-result-object v0
++    invoke-interface {v0}, Ljava/util/List;->isEmpty()Z
++    move-result v0
++    if-nez v0, :xg_no
++    const/4 v0, 0x1
++    return v0
++    :xg_no
++    const/4 v0, 0x0
++    return v0
++.end method
++
++.method public static xgRemember(Landroid/content/Context;Landroid/net/Network;Ljava/lang/String;)Z
++    .locals 2
++    if-eqz p2, :xg_no
++    invoke-virtual {p2}, Ljava/lang/String;->isEmpty()Z
++    move-result v0
++    if-nez v0, :xg_no
++    invoke-static {p0, p1}, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgLive(Landroid/content/Context;Landroid/net/Network;)Z
++    move-result v0
++    if-eqz v0, :xg_no
++    filled-new-array {p1, p2}, [Ljava/lang/Object;
++    move-result-object v0
++    sput-object v0, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgIdentity:[Ljava/lang/Object;
++    const/4 v0, 0x1
++    return v0
++    :xg_no
++    const/4 v0, 0x0
++    return v0
++.end method
++
++.method private static xgMatches(Landroid/content/Context;Ljava/lang/String;)Z
++    .locals 3
++    sget-object v0, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgIdentity:[Ljava/lang/Object;
++    if-eqz v0, :xg_no
++    if-eqz p1, :xg_no
++    const/4 v1, 0x1
++    aget-object v1, v0, v1
++    invoke-virtual {p1, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v1
++    if-eqz v1, :xg_no
++    const/4 v1, 0x0
++    aget-object v0, v0, v1
++    check-cast v0, Landroid/net/Network;
++    invoke-static {p0, v0}, Lcom/superhexa/lib/channel/tools/ConnectUtil;->xgLive(Landroid/content/Context;Landroid/net/Network;)Z
++    move-result v0
++    return v0
++    :xg_no
++    const/4 v0, 0x0
++    return v0
++.end method

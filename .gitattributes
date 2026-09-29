@@ -1,0 +1,2 @@
+# Archived unified diffs contain significant space-only context lines.
+patches/*.patch -whitespace
